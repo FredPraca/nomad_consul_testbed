@@ -1,0 +1,11 @@
+profile::consul::server::datacenter: 'tatooine'
+profile::consul::server::servername: 'consul'
+profile::consul::server::log_level: 'INFO'
+profile::nomad::server::region: 'fre'
+profile::nomad::server::datacenter: 'tatooine'
+profile::nomad::server::log_level: 'INFO'
+profile::nomad::server::node_name: 'nomad_server'
+
+roles:
+  - role::nomad::server
+  - role::consul::server

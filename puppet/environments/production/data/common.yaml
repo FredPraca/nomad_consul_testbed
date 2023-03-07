@@ -1,0 +1,12 @@
+roles:
+  - 'profile::base'
+
+ntp::servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+
+ntp::package_name:
+  - ntp
+  - chrony
+
+ssl::cert_source: 'profile/certificates'

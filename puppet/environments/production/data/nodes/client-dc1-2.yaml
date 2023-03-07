@@ -1,0 +1,6 @@
+profile::nomad::agent::region: 'fre'
+profile::nomad::agent::datacenter: 'tatooine'
+profile::nomad::agent::log_level: 'INFO'
+
+roles:
+  - role::nomad::agent

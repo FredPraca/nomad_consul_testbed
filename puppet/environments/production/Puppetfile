@@ -1,0 +1,22 @@
+forge 'https://forge.puppet.com'
+
+# Modules discovered by generate-puppetfile
+mod 'puppet/archive',        '6.1.1'
+mod 'puppet/consul',         '7.3.1'
+mod 'puppet/hashi_stack',    '2.2.0'
+mod 'puppet/nomad',          '2.2.0'
+mod 'puppet/systemd',        '3.10.0'
+mod 'puppet/yum',            '6.2.0'
+mod 'puppetlabs/apt',        '9.0.1'
+mod 'puppetlabs/concat',     '7.3.1'
+mod 'puppetlabs/docker',     '6.0.2'
+mod 'puppetlabs/firewall',   '4.0.1'
+mod 'puppetlabs/inifile',    '5.4.0'
+mod 'puppetlabs/java',       '9.0.1'
+mod 'puppetlabs/motd',       '6.3.0'
+mod 'puppetlabs/powershell', '5.2.0'
+mod 'puppetlabs/pwshlib',    '0.10.3'
+mod 'puppetlabs/reboot',     '4.3.0'
+mod 'puppetlabs/registry',   '4.1.1'
+mod 'puppetlabs/stdlib',     '8.5.0'
+
