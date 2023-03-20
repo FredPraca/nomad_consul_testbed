@@ -6,7 +6,7 @@ class profile::consul::server (
 {
   
   class {'consul':
-    # manage_repo       => true,
+    manage_repo       => true,
     install_method    => 'package',
     bin_dir           => '/usr/bin',
     config_hash => {

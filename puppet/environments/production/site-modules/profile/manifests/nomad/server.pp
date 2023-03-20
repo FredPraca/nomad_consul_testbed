@@ -8,6 +8,7 @@ class profile::nomad::server (
   include firewall
   
   class {'nomad':
+    manage_repo       => true,
     install_method    => 'package',
     config_hash => {
       'region' => $region,

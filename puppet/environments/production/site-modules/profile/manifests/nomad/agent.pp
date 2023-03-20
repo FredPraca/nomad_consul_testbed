@@ -8,7 +8,36 @@ class profile::nomad::agent (
   include docker
   include java
 
-  class {'nomad':
+  class { 'consul':
+    manage_repo       => true,
+    install_method    => 'package',
+    bin_dir           => '/usr/bin',
+    config_hash => {
+      'data_dir'   => '/opt/consul',
+      'client_addr'      => '0.0.0.0',
+      'datacenter' => $datacenter,
+      'log_level'  => $log_level,
+      'node_name'  => $facts['fqdn'],
+      'retry_join' => ['192.168.56.101'],
+      'bind_addr'  => '{{ GetInterfaceIP "eth0" }}',
+      'ui_config'        => {
+        'enabled'            => true,
+        'metrics_provider'   => 'prometheus',
+        'metrics_proxy'      => {
+          'base_url' => 'http://prometheus.service.tatooine.consul'
+        }
+      },
+      'connect'          => {
+        'enabled'        => true,
+      },
+      'ports'      => {
+        "grpc"     => 8502,
+      }
+    },
+  }
+
+  -> class {'nomad':
+#    manage_repo       => false,
     install_method    => 'package',
     config_hash => {
       'region' => $region,
@@ -42,33 +71,6 @@ class profile::nomad::agent (
           }
         ],
     }
-  }
-
-  -> class { 'consul':
-    install_method    => 'package',
-    bin_dir           => '/usr/bin',
-    config_hash => {
-      'data_dir'   => '/opt/consul',
-      'client_addr'      => '0.0.0.0',
-      'datacenter' => $datacenter,
-      'log_level'  => $log_level,
-      'node_name'  => $facts['fqdn'],
-      'retry_join' => ['192.168.56.101'],
-      'bind_addr'  => '{{ GetInterfaceIP "eth1" }}',
-      'ui_config'        => {
-        'enabled'            => true,
-        'metrics_provider'   => 'prometheus',
-        'metrics_proxy'      => {
-          'base_url' => 'http://prometheus.service.tatooine.consul'
-        }
-      },
-      'connect'          => {
-        'enabled'        => true,
-      },
-      'ports'      => {
-        "grpc"     => 8502,
-      }
-    },
   }
 
   firewall { '1001 allow nomad access':
