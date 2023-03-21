@@ -3,42 +3,55 @@
 
 $script = <<-SCRIPT
 # Update repos
-rpm -Uvh https://yum.puppet.com/puppet7-release-el-7.noarch.rpm
+wget https://apt.puppet.com/puppet7-release-bullseye.deb
+dpkg -i puppet7-release-bullseye.deb
 
 # Update packages
-yum update -y
+apt update -y
 
 # Install Ruby 2.7
-yum install -y centos-release-scl-rh centos-release-scl rubygems
-yum --enablerepo=centos-sclo-rh install -y rh-ruby27 
-scl enable rh-ruby27 bash
-source scl_source enable rh-ruby27
+apt install -y ruby rubygems
+
 # Install r10k for Puppet
 gem install r10k
 
 # Install Puppet
-yum install -y puppet-agent
+apt install -y puppet-agent
 
 # Install modules for Puppet
 cd /tmp/vagrant-puppet/environments/production/
 r10k puppetfile install
 
 # Install CNI
-curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.0.0.tgz
+wget -O cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.0.0.tgz
 mkdir -p /opt/cni/bin
 tar -C /opt/cni/bin -xzf cni-plugins.tgz
 SCRIPT
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "generic/centos7"
+  config.vm.box = "debian/bullseye64"
 
   config.vm.provision "shell",
                       inline: $script
 
+  config.vm.synced_folder ".", "/vagrant", type: "rsync",
+                          rsync__exclude: ".git/"
+  
   config.vm.provision "puppet" do |puppet|
     puppet.options = "--verbose --debug"
     puppet.environment_path = "puppet/environments"
     puppet.environment = "production"
+  end
+
+  # configure RAM and CPUs
+  config.vm.provider "libvirt" do |v|
+    v.memory = 2048
+    v.cpus = 2
+  end
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 2048
+    v.cpus = 2
   end
 
   # Server (nomad / consul)
