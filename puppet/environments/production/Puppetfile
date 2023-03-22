@@ -21,4 +21,4 @@ mod 'puppetlabs/reboot',     '4.3.0'
 mod 'puppetlabs/registry',   '4.1.1'
 mod 'puppetlabs/stdlib',     '8.5.0'
 mod 'stm/file_capability',   '5.0.0'
-
+mod 'lsst-cni',              '2.4.1'

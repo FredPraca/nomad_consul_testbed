@@ -22,10 +22,6 @@ apt install -y puppet-agent
 cd /tmp/vagrant-puppet/environments/production/
 r10k puppetfile install
 
-# Install CNI
-wget -O cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v1.0.0/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v1.0.0.tgz
-mkdir -p /opt/cni/bin
-tar -C /opt/cni/bin -xzf cni-plugins.tgz
 SCRIPT
 
 Vagrant.configure(2) do |config|
@@ -38,7 +34,7 @@ Vagrant.configure(2) do |config|
                           rsync__exclude: ".git/"
   
   config.vm.provision "puppet" do |puppet|
-    puppet.options = "--verbose --debug"
+    puppet.options = "--verbose"
     puppet.environment_path = "puppet/environments"
     puppet.environment = "production"
   end
