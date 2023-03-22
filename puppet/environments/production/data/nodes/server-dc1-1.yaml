@@ -9,3 +9,4 @@ profile::nomad::server::node_name: 'nomad_server'
 roles:
   - role::nomad::server
   - role::consul::server
+  - role::vault::server

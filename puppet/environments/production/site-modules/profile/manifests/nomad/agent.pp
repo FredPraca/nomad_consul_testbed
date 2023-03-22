@@ -37,7 +37,7 @@ class profile::nomad::agent (
   }
 
   -> class {'nomad':
-#    manage_repo       => false,
+    manage_repo       => true,
     install_method    => 'package',
     config_hash => {
       'region' => $region,

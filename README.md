@@ -2,6 +2,7 @@ Puppet/Nomad-Consul Testbench
 ====
 
 This repository aims at providing a Vagrant environment for testing Nomad thanks to Puppet.
+The cluster contains Vault, Consul and Nomad servers along two Nomad clients.
 
 Puppet
 --
@@ -14,13 +15,14 @@ Nomad
 
 There are three virtual machines:
 
-- A Nomad/Consul server
+- A Nomad/Consul/Vault server
 - Two Nomad agents
 
 UI are available respectively at:
 
 - [Consul](http://192.168.56.101:8500/)
 - [Nomad](http://192.168.56.101:4646/)
+- [Vault](http://192.168.56.101:8200/)
 
 
 Building
