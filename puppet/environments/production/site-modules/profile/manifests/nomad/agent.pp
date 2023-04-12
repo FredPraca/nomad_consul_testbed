@@ -48,6 +48,10 @@ class profile::nomad::agent (
     ]
   }
 
+  file { ['/nomad', '/nomad/host-volumes', '/nomad/host-volumes/wp-server', '/nomad/host-volumes/wp-runner']:
+    ensure => 'directory',
+  }
+  
   -> class {'nomad':
     manage_repo       => true,
     install_method    => 'package',
@@ -58,6 +62,16 @@ class profile::nomad::agent (
       'data_dir'   => '/opt/nomad',
       'client'     => {
         'enabled'          => true,
+        'host_volume' => {
+          'wp-server-vol' => {
+            'path' => "/nomad/host-volumes/wp-server",
+            'read_only' => false
+          },
+          'wp-runner-vol' => {
+            'path' => "/nomad/host-volumes/wp-runner",
+            'read_only' => false
+          }
+        }
       },
       'plugin' => 
       [
